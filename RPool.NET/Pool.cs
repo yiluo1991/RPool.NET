@@ -15,6 +15,8 @@ namespace RPool.NET
         private static int minPoolSize = ((PoolSetting)ConfigurationManager.GetSection(PoolSettingConstants.SECTION_NAME)).MinPoolSize;
         private static int maxPoolSize = ((PoolSetting)ConfigurationManager.GetSection(PoolSettingConstants.SECTION_NAME)).MaxPoolSize;
         private static int limitLife = ((PoolSetting)ConfigurationManager.GetSection(PoolSettingConstants.SECTION_NAME)).LimitLife;
+        private static int limitTimes = ((PoolSetting)ConfigurationManager.GetSection(PoolSettingConstants.SECTION_NAME)).LimitTimes;
+
         private static bool _inlnitialize = false;
         private static object poolLevelLock = new object();
         public static PoolItemWithLock[] processArr = new PoolItemWithLock[maxPoolSize];
@@ -71,14 +73,14 @@ namespace RPool.NET
             try
             {
                 var now = DateTime.Now;
-                var targets = processArr.Where(s => s != null && (s.State == ProcessState.ByeBye || (now - s.CreateTime).Minutes > limitLife)).ToList();
+                var targets = processArr.Where(s => s != null && (s.State == ProcessState.ByeBye || (now - s.CreateTime).Minutes > limitLife || s.TaskRunTimes >= limitTimes)).ToList();
                 if (targets.Count > 0)
                 {
                     lock (poolLevelLock)
                     {
                         for (int i = 0; i < maxPoolSize; i++)
                         {
-                            if (processArr[i].State == ProcessState.ByeBye)
+                            if (processArr[i]!=null&& (processArr[i] .State== ProcessState.ByeBye|| (processArr[i].TaskRunTimes>limitTimes)))
                             {
                                 processArr[i].Dispose();
                                 processArr[i] = null;
@@ -88,7 +90,7 @@ namespace RPool.NET
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
             }
@@ -140,7 +142,7 @@ namespace RPool.NET
             {
                 if (processs.Count>0 )
                 {
-                    var pro = processs[random.Next(processs.Count)];
+                    var pro = processs[0];
                     lock (pro.Lock)
                     {
                         result =pro.ExecuteCommand(command, args);
@@ -172,7 +174,7 @@ namespace RPool.NET
                 }
                 if ((result.State == CommandReaultType.ProcessMayClosed || result.State == CommandReaultType.ProcessNotReady) && canRetry)
                 {
-                    Thread.Sleep(random.Next(10));
+                  //  Thread.Sleep(random.Next(10));
                     return ExecuteR(command, args, true);
                 }
                 else

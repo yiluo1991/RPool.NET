@@ -77,9 +77,12 @@ namespace RPool.NET
                                     break;
                                 }
                             }
-
+                            if (!ignoreState)
+                            {
+                                ++this.TaskRunTimes;
+                            }
                             //设置状态
-                            if (++this.TaskRunTimes > ((PoolSetting)ConfigurationManager.GetSection(PoolSettingConstants.SECTION_NAME)).LimitTimes)
+                            if (this.TaskRunTimes >= ((PoolSetting)ConfigurationManager.GetSection(PoolSettingConstants.SECTION_NAME)).LimitTimes)
                             {
                                 this.State = ProcessState.ByeBye;
                             }
