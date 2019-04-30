@@ -18,7 +18,7 @@ namespace RPool.NET
         /// <summary>
         ///     初始化中
         /// </summary>
-        InInitializing,
+        Initializing,
         /// <summary>
         ///     就绪，等待任务
         /// </summary>

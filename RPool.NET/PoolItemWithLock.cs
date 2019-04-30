@@ -37,13 +37,13 @@ namespace RPool.NET
             lock (this.Lock)
             {
                 CreateTime = DateTime.Now;
-                this.State = ProcessState.InInitializing;
+                this.State = ProcessState.Initializing;
                 this.Process.Start();
-                OnInInitialize();
+                OnInitialize();
                 this.State = ProcessState.Ready;
             }
         }
-        public virtual void OnInInitialize()
+        public virtual void OnInitialize()
         {
           
         }

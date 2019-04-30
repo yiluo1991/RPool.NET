@@ -154,13 +154,13 @@ namespace RPool.NET
                 }
                 else
                 {
-                    var availableProcess = processArr.Where(s => s != null && s.State != ProcessState.ByeBye && s.State != ProcessState.InInitializing).ToList();
+                    var availableProcess = processArr.Where(s => s != null && s.State != ProcessState.ByeBye && s.State != ProcessState.Initializing).ToList();
                     if (availableProcess.Count == 0)
                     {
                         lock (poolLevelLock)
                     {
                         AutoAddPoolItem();
-                        availableProcess = processArr.Where(s => s != null && s.State != ProcessState.ByeBye && s.State != ProcessState.InInitializing).ToList();
+                        availableProcess = processArr.Where(s => s != null && s.State != ProcessState.ByeBye && s.State != ProcessState.Initializing).ToList();
                     }
                 }
                     else

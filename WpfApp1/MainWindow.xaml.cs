@@ -65,7 +65,8 @@ namespace WpfApp1
 
         private void Cacl(object num) {
       
-                var r=Pool.ExecuteR("print(Anova)").Result;
+                var r=Pool.ExecuteR("print(args)","你好").Result;
+               
                 text.Dispatcher.Invoke(() =>
                 {
                     Append(r);
@@ -86,7 +87,7 @@ namespace WpfApp1
 
     public class MyProcess : RPool.NET.PoolItemWithLock
     {
-        public override void OnInInitialize()
+        public override void OnInitialize()
         {
             ExecuteCommand("library(car)", true, null);
         }
