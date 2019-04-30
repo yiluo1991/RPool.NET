@@ -65,7 +65,7 @@ namespace WpfApp1
 
         private void Cacl(object num) {
       
-                var r=Pool.ExecuteR("print(Anova)", null).Result;
+                var r=Pool.ExecuteR("print(Anova)").Result;
                 text.Dispatcher.Invoke(() =>
                 {
                     Append(r);

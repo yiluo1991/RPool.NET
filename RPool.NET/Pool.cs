@@ -134,6 +134,10 @@ namespace RPool.NET
         {
             return ExecuteR(command, args, true);
         }
+        public static CommandReault ExecuteR(string command)
+        {
+            return ExecuteR(command, null, true);
+        }
         public static CommandReault ExecuteR(string command, string args,bool canRetry)
         {
             var processs = processArr.Where(s =>s!=null&& s.State == ProcessState.Ready).ToList();
