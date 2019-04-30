@@ -7,7 +7,7 @@
 导入RPool.NET到项目中，配置项目的web.config或app.config文件，结构如下：
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
-<configuration>
+<configuration> 
   <configSections>
     <section name="rPoolSetting" type="RPool.NET.Configuration.PoolSetting,RPool.NET" />
   </configSections>
@@ -50,8 +50,8 @@ var result=Pool.ExecuteR("print(args)","你好").Result;
 
 ## 高级应用
 如果需要导入R的各种包，直接在执行要执行的语句中导入即可。
-如果不想每次都在要执行的语句中导入，可以创建自己的PoolItemWithLock，下面以每次创建R进程自动导入car包为例：
-        创建一个新的类，继承PoolItemWithLock，重写
+如果不想每次都在要执行的语句中导入，可以创建自己的PoolItemWithLock，下面以每次创建R进程自动导入car包为例：    
+创建一个新的类，继承PoolItemWithLock，重写OnInitialize
 ```c#
     public class MyProcess : RPool.NET.PoolItemWithLock
     {
@@ -61,3 +61,7 @@ var result=Pool.ExecuteR("print(args)","你好").Result;
         }
     }
 ```
+初始化时用<blockquote style="display:inline;">MyProcess</blockquote>实例化
+```c#
+ Pool.InInitialize<PoolItemWithLock>();
+``` 
