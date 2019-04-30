@@ -61,7 +61,7 @@ var result=Pool.ExecuteR("print(args)","你好").Result;
         }
     }
 ```
-初始化时用<blockquote style="display:inline;">MyProcess</blockquote>实例化
+初始化时用MyProcess实例化
 ```c#
- Pool.InInitialize<PoolItemWithLock>();
+ Pool.InInitialize<MyProcess>();
 ``` 
